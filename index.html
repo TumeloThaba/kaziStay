@@ -1,9 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Accommodation App</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accommodation Listings</title>
+  
+  <!-- Your main CSS -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <h1>My Accommodation SPA</h1>
+
+  <!-- --- Navigation --- -->
+  <nav>
+    <div class="logo">MyStay</div>
+    <button class="btn btn-primary" onclick="openAddModal()">List a Room</button>
+  </nav>
+
+  <!-- --- Main Content (Listings Render Here) --- -->
+  <main id="main-content"></main>
+
+  <!-- --- Add Listing Modal --- -->
+  <div id="addModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>List a Room</h2>
+        <button class="close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="addForm">
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" placeholder="Room Title" required>
+          </div>
+          <div class="form-group">
+            <label>Location</label>
+            <input type="text" placeholder="City or Area" required>
+          </div>
+          <div class="form-group">
+            <label>Price</label>
+            <input type="number" placeholder="R" required>
+          </div>
+          <div class="form-group full-width">
+            <label>Image URL</label>
+            <input type="text" placeholder="https://example.com/image.jpg" required>
+          </div>
+          <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- --- Scripts --- -->
+  <script src="js/listings.js"></script>
+  <script src="js/form.js"></script>
+  <script src="js/app.js"></script>
+
 </body>
 </html>
+
