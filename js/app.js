@@ -7,21 +7,24 @@ const modalThumbnails = detailModal.querySelector('.modal-thumbnails');
 const galleryPrev = detailModal.querySelector('.gallery-nav.prev');
 const galleryNext = detailModal.querySelector('.gallery-nav.next');
 
+const priceRangeInput = document.getElementById('priceRange');
+const priceRangeDisplay = document.getElementById('priceRangeDisplay');
+
 // ===== Gallery State =====
-let listingsData = []; // will store uploaded properties
+let listingsData = []; // Will store all properties
 let currentImages = [];
 let currentImageIndex = 0;
 
 // ===== Render Listings =====
-function renderListings() {
+function renderListings(filteredData = listingsData) {
   listingsContainer.innerHTML = '';
 
-  if(listingsData.length === 0) {
-    listingsContainer.innerHTML = '<p style="text-align:center; margin-top:30px;">No listings yet. List a property to get started!</p>';
+  if (filteredData.length === 0) {
+    listingsContainer.innerHTML = '<p style="text-align:center; margin-top:30px;">No listings available for this price range.</p>';
     return;
   }
 
-  listingsData.forEach(listing => {
+  filteredData.forEach(listing => {
     const card = document.createElement('div');
     card.classList.add('card');
 
@@ -51,7 +54,7 @@ function renderListings() {
       detailModal.classList.add('active');
     });
 
-    // ===== Location button =====
+    // ===== Location Button =====
     const locationBtn = card.querySelector('.location-btn');
     locationBtn.addEventListener('click', () => {
       const mapUrl = `https://www.google.com/maps/search/${encodeURIComponent(listing.location)}`;
@@ -89,7 +92,7 @@ function updateModalGallery(listing) {
     const thumb = document.createElement('img');
     thumb.src = imgSrc;
     thumb.classList.add('modal-thumbnail');
-    if(index === currentImageIndex) thumb.classList.add('active');
+    if (index === currentImageIndex) thumb.classList.add('active');
 
     thumb.addEventListener('click', () => {
       currentImageIndex = index;
@@ -102,36 +105,37 @@ function updateModalGallery(listing) {
 
 // ===== Gallery Navigation =====
 galleryPrev.addEventListener('click', () => {
-  if(currentImages.length === 0) return;
+  if (currentImages.length === 0) return;
   currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
   renderModalForCurrentImages();
 });
 
 galleryNext.addEventListener('click', () => {
-  if(currentImages.length === 0) return;
+  if (currentImages.length === 0) return;
   currentImageIndex = (currentImageIndex + 1) % currentImages.length;
   renderModalForCurrentImages();
 });
 
 function renderModalForCurrentImages() {
   const listing = listingsData.find(l => l.images.includes(currentImages[currentImageIndex]));
-  if(listing) updateModalGallery(listing);
+  if (listing) updateModalGallery(listing);
 }
 
 // ===== Close Detail Modal =====
 detailCloseBtn.addEventListener('click', () => {
   detailModal.classList.remove('active');
 });
-
-// Close modal if clicked outside content
 detailModal.addEventListener('click', (e) => {
-  if(e.target === detailModal) detailModal.classList.remove('active');
+  if (e.target === detailModal) detailModal.classList.remove('active');
 });
 
 // ===== Add New Property from Form =====
 const addForm = document.getElementById('addForm');
 addForm.addEventListener('submit', (e) => {
   e.preventDefault();
+
+  const imageFiles = document.getElementById('propertyImages').files;
+  const imagesURLs = Array.from(imageFiles).map(f => URL.createObjectURL(f));
 
   const newListing = {
     id: Date.now(),
@@ -141,30 +145,29 @@ addForm.addEventListener('submit', (e) => {
     amenities: document.getElementById('amenities').value,
     price: parseFloat(document.getElementById('price').value),
     description: document.getElementById('description').value,
-    images: []
+    images: imagesURLs
   };
 
-  // Handle multiple images
-  const imageFiles = document.getElementById('propertyImage').files;
-  for(let file of imageFiles) {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      newListing.images.push(event.target.result);
-
-      // Only render after all images loaded
-      if(newListing.images.length === imageFiles.length) {
-        listingsData.push(newListing);
-        renderListings();
-      }
-    };
-    reader.readAsDataURL(file);
-  }
+  listingsData.push(newListing);
+  renderListings();
 
   // Reset form
   addForm.reset();
-  document.getElementById('imagePreview').style.display = 'none';
+  document.getElementById('imagesPreviewContainer').innerHTML = '';
   document.getElementById('addModal').classList.remove('active');
 });
+
+// ===== Price Range Filtering =====
+if (priceRangeInput && priceRangeDisplay) {
+  priceRangeDisplay.textContent = `R${priceRangeInput.value}`;
+
+  priceRangeInput.addEventListener('input', () => {
+    const maxPrice = parseFloat(priceRangeInput.value);
+    priceRangeDisplay.textContent = `R${maxPrice}`;
+    const filtered = listingsData.filter(l => l.price <= maxPrice);
+    renderListings(filtered);
+  });
+}
 
 // ===== Initial Render =====
 renderListings();
