@@ -8,7 +8,7 @@ const galleryPrev = detailModal.querySelector('.gallery-nav.prev');
 const galleryNext = detailModal.querySelector('.gallery-nav.next');
 
 const priceRangeInput = document.getElementById('priceRange');
-const priceRangeDisplay = document.getElementById('priceRangeDisplay');
+const priceRangeDisplay = document.getElementById('priceRangeValue');
 
 // ===== Gallery State =====
 let listingsData = []; // Will store all properties
@@ -67,10 +67,7 @@ function renderListings(filteredData = listingsData) {
 
 // ===== Update Modal Gallery =====
 function updateModalGallery(listing) {
-  // Main image
   modalMainImage.src = currentImages[currentImageIndex];
-
-  // Modal details
   detailModal.querySelector('.modal-title').textContent = `${listing.propertyType} - ${listing.ownerName}`;
   detailModal.querySelector('.modal-price').textContent = `R${listing.price.toLocaleString()}`;
   detailModal.querySelector('.modal-desc').textContent = listing.description;
@@ -82,7 +79,6 @@ function updateModalGallery(listing) {
     window.open(mapUrl, '_blank');
   };
 
-  // Amenities
   detailModal.querySelector('.modal-amenities').innerHTML =
     listing.amenities.split(',').map(a => `<div class="amenity">${a.trim()}</div>`).join('');
 
@@ -122,9 +118,7 @@ function renderModalForCurrentImages() {
 }
 
 // ===== Close Detail Modal =====
-detailCloseBtn.addEventListener('click', () => {
-  detailModal.classList.remove('active');
-});
+detailCloseBtn.addEventListener('click', () => detailModal.classList.remove('active'));
 detailModal.addEventListener('click', (e) => {
   if (e.target === detailModal) detailModal.classList.remove('active');
 });
@@ -134,7 +128,7 @@ const addForm = document.getElementById('addForm');
 addForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  const imageFiles = document.getElementById('propertyImages').files;
+  const imageFiles = document.getElementById('propertyImage').files;
   const imagesURLs = Array.from(imageFiles).map(f => URL.createObjectURL(f));
 
   const newListing = {
@@ -151,22 +145,28 @@ addForm.addEventListener('submit', (e) => {
   listingsData.push(newListing);
   renderListings();
 
-  // Reset form
   addForm.reset();
-  document.getElementById('imagesPreviewContainer').innerHTML = '';
+  document.getElementById('imagePreviewContainer').innerHTML = '';
   document.getElementById('addModal').classList.remove('active');
 });
 
-// ===== Price Range Filtering =====
+// ===== Price Range Slider Functionality =====
 if (priceRangeInput && priceRangeDisplay) {
-  priceRangeDisplay.textContent = `R${priceRangeInput.value}`;
+  function updatePriceSlider() {
+    const value = parseInt(priceRangeInput.value);
+    const max = parseInt(priceRangeInput.max);
+    const percent = (value / max) * 100;
 
-  priceRangeInput.addEventListener('input', () => {
-    const maxPrice = parseFloat(priceRangeInput.value);
-    priceRangeDisplay.textContent = `R${maxPrice}`;
-    const filtered = listingsData.filter(l => l.price <= maxPrice);
+    // Update slider fill dynamically
+    priceRangeInput.style.background = `linear-gradient(to right, #4CAF50 0%, #4CAF50 ${percent}%, #ddd ${percent}%, #ddd 100%)`;
+
+    priceRangeDisplay.textContent = `R${value.toLocaleString()}`;
+    const filtered = listingsData.filter(l => l.price <= value);
     renderListings(filtered);
-  });
+  }
+
+  priceRangeInput.addEventListener('input', updatePriceSlider);
+  updatePriceSlider(); // initial fill on load
 }
 
 // ===== Initial Render =====
