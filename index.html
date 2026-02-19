@@ -19,36 +19,73 @@
   <!-- --- Main Content (Listings Render Here) --- -->
   <main id="main-content"></main>
 
-  <!-- --- Add Listing Modal --- -->
-  <div id="addModal" class="modal-overlay">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>List a Room</h2>
-        <button class="close-modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <form id="addForm">
-          <div class="form-group">
-            <label>Title</label>
-            <input type="text" placeholder="Room Title" required>
+ <!-- Add Listing Modal -->
+<div id="addModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>List Your Property</h2>
+      <button class="close-modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="addForm">
+        <!-- Owner Name -->
+        <div class="form-group">
+          <label for="ownerName">Owner Name</label>
+          <input type="text" id="ownerName" placeholder="Enter your full name" required>
+        </div>
+
+        <!-- Property Location -->
+        <div class="form-group">
+          <label for="location">Property Location</label>
+          <input type="text" id="location" placeholder="City or Address" required>
+        </div>
+
+        <!-- Property Type -->
+        <div class="form-group">
+          <label for="propertyType">Property Type</label>
+          <select id="propertyType" required>
+            <option value="">Select type</option>
+            <option value="single room">Single Room</option>
+            <option value="bachelor room">Bachelor Room</option>
+            <option value="apartment">Apartment</option>
+          </select>
+        </div>
+
+        <!-- Amenities -->
+        <div class="form-group full-width">
+          <label for="amenities">Amenities</label>
+          <input type="text" id="amenities" placeholder="Wifi, Television, Parking..." required>
+        </div>
+
+        <!-- Property Image Upload -->
+        <div class="form-group full-width">
+          <label>Property Image</label>
+          <div class="file-upload">
+            <i class="fa fa-cloud-upload file-upload-icon"></i>
+            <p class="file-upload-text">Click to upload image <span>(JPG/PNG)</span></p>
+            <input type="file" id="propertyImage" accept="image/*" required>
           </div>
-          <div class="form-group">
-            <label>Location</label>
-            <input type="text" placeholder="City or Area" required>
-          </div>
-          <div class="form-group">
-            <label>Price</label>
-            <input type="number" placeholder="R" required>
-          </div>
-          <div class="form-group full-width">
-            <label>Image URL</label>
-            <input type="text" placeholder="https://example.com/image.jpg" required>
-          </div>
-          <button type="submit" class="btn btn-primary submit-btn">Submit</button>
-        </form>
-      </div>
+        </div>
+
+        <!-- Price -->
+        <div class="form-group">
+          <label for="price">Price (ZAR)</label>
+          <input type="number" id="price" placeholder="Enter monthly price" required>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group full-width">
+          <label for="description">Brief Description</label>
+          <textarea id="description" placeholder="Describe your property" required></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn btn btn-primary">Upload Property</button>
+      </form>
     </div>
   </div>
+</div>
+
 
   <!-- --- Scripts --- -->
   <script src="js/listings.js"></script>
