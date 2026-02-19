@@ -4,106 +4,106 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accommodation Listings</title>
-  
-  <!-- Your main CSS -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- --- Navigation --- -->
+  <!-- ===== Navigation ===== -->
   <nav>
-    <div class="logo">KaziStay</div>
-    <button id="listRoomBtn" class="btn btn-primary" onclick="openAddModal()">List a Room</button>
+    <div class="logo">MyAccom</div>
+    <button id="listRoomBtn" class="btn btn-primary">List a Room</button>
   </nav>
 
-  <!-- --- Main Content (Listings Render Here) --- -->
-  <main id="main-content"></main>
+  <!-- ===== Hero / Search ===== -->
+  <section class="hero">
+    <h1>Find Your Perfect Property</h1>
+    <p>Search and browse available properties</p>
+  </section>
 
- <!-- Add Listing Modal -->
-<div id="addModal" class="modal-overlay">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>List Your Property</h2>
-      <button class="close-modal">&times;</button>
-    </div>
-    <div class="modal-body">
+  <!-- ===== Property Grid ===== -->
+  <section class="grid" id="propertyGrid">
+    <!-- Property cards will be dynamically inserted here by app.js -->
+  </section>
+
+  <!-- ===== Add Listing Modal ===== -->
+  <div class="modal-overlay" id="addModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add Your Property</h2>
+        <button class="close-modal">&times;</button>
+      </div>
       <form id="addForm">
-        <!-- Owner Name -->
         <div class="form-group">
           <label for="ownerName">Owner Name</label>
-          <input type="text" id="ownerName" placeholder="Enter your full name" required>
+          <input type="text" id="ownerName" placeholder="John Doe" required>
         </div>
-
-        <!-- Property Location -->
         <div class="form-group">
           <label for="location">Property Location</label>
-          <input type="text" id="location" placeholder="City or Address" required>
+          <input type="text" id="location" placeholder="City, Street Address" required>
         </div>
-
-        <!-- Property Type -->
         <div class="form-group">
           <label for="propertyType">Property Type</label>
           <select id="propertyType" required>
-            <option value="">Select type</option>
-            <option value="single room">Single Room</option>
-            <option value="bachelor room">Bachelor Room</option>
-            <option value="apartment">Apartment</option>
+            <option value="">Select Type</option>
+            <option value="Single Room">Single Room</option>
+            <option value="Bachelor Room">Bachelor Room</option>
+            <option value="Apartment">Apartment</option>
           </select>
         </div>
-
-        <!-- Amenities -->
-        <div class="form-group full-width">
+        <div class="form-group">
           <label for="amenities">Amenities</label>
-          <input type="text" id="amenities" placeholder="Wifi, Television, Parking..." required>
+          <input type="text" id="amenities" placeholder="wifi, television, parking" required>
         </div>
-
-        <!-- Property Image Upload -->
-        <div class="form-group full-width">
-          <label>Property Image</label>
-          <div class="file-upload">
-            <i class="fa fa-cloud-upload file-upload-icon"></i>
-            <p class="file-upload-text">Click to upload image <span>(JPG/PNG)</span></p>
-            <input type="file" id="propertyImage" accept="image/*" required>
-            <!-- Property Image Upload -->
-<div class="form-group full-width">
-  <label>Property Image</label>
-  <div class="file-upload">
-    <i class="fa fa-cloud-upload file-upload-icon"></i>
-    <p class="file-upload-text">Click to upload image <span>(JPG/PNG)</span></p>
-    <input type="file" id="propertyImage" accept="image/*" required>
-    <!-- Image preview -->
-    <img id="imagePreview" style="display:none; margin-top:10px; max-width:100%; border-radius:12px;" />
-  </div>
-</div>
-
-          </div>
-        </div>
-
-        <!-- Price -->
         <div class="form-group">
           <label for="price">Price (ZAR)</label>
-          <input type="number" id="price" placeholder="Enter monthly price" required>
+          <input type="number" id="price" placeholder="Enter price per month" required>
         </div>
-
-        <!-- Description -->
-        <div class="form-group full-width">
+        <div class="form-group">
           <label for="description">Brief Description</label>
-          <textarea id="description" placeholder="Describe your property" required></textarea>
+          <textarea id="description" placeholder="Describe your property..." required></textarea>
         </div>
-
-        <!-- Submit Button -->
-        <button type="submit" class="submit-btn btn btn-primary">Upload Property</button>
+        <div class="form-group file-upload">
+          <label class="file-upload-text">
+            Upload Property Images (you can select multiple)
+            <span>Choose files</span>
+          </label>
+          <input type="file" id="propertyImage" multiple accept="image/*">
+          <img id="imagePreview" style="display:none; max-width:100%; margin-top:10px; border-radius:8px;">
+        </div>
+        <button type="submit" class="btn btn-primary submit-btn">Upload Property</button>
       </form>
     </div>
   </div>
-</div>
 
+  <!-- ===== Property Detail Modal ===== -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal-content">
+      <button class="close-modal">&times;</button>
+      <div class="modal-gallery">
+        <img id="modalMainImage" src="" alt="Property Image" style="width:100%; height:300px; object-fit:cover;">
+      </div>
+      <div class="modal-thumbnails" id="modalThumbnails"></div>
+      <div class="modal-body">
+        <h2 id="modalTitle">Property Title</h2>
+        <p id="modalLocation">Location</p>
+        <p id="modalPrice">Price</p>
+        <p id="modalDescription">Description</p>
+        <button id="viewMapBtn" class="btn btn-primary">View on Map</button>
+      </div>
+    </div>
+  </div>
 
-  <!-- --- Scripts --- -->
-  <script src="js/listings.js"></script>
+  <!-- ===== Map Modal ===== -->
+  <div class="modal-overlay" id="mapModal">
+    <div class="modal-content">
+      <button class="close-modal">&times;</button>
+      <div class="map-container">
+        <iframe id="mapIframe" src="" style="width:100%;height:100%;border:none;"></iframe>
+      </div>
+    </div>
+  </div>
+
   <script src="js/form.js"></script>
   <script src="js/app.js"></script>
-
 </body>
 </html>
-
