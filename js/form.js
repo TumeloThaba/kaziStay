@@ -70,9 +70,6 @@ addForm.addEventListener('submit', (e) => {
 localStorage.setItem("listings", JSON.stringify(listingsData));
 renderListings();
 
-  // Re-render listings on homepage
-  renderListings();
-
   // Reset form
   addForm.reset();
   imagesPreviewContainer.innerHTML = '';
