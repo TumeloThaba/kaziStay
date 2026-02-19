@@ -1,3 +1,4 @@
+heres the html to update to match both app.js and form.js then ill test: 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +30,7 @@
   </section>
 
   <!-- --- Main Content (Listings Render Here) --- -->
-  <main id="main-content"></main>
+  <main id="listingsContainer"></main>
 
   <!-- --- Add Listing Modal --- -->
   <div id="addModal" class="modal-overlay">
@@ -75,9 +76,9 @@
             <div class="file-upload">
               <i class="fa fa-cloud-upload file-upload-icon"></i>
               <p class="file-upload-text">Click to upload images <span>(JPG/PNG)</span></p>
-              <input type="file" id="propertyImages" accept="image/*" multiple required>
+              <input type="file" id="propertyImage" accept="image/*" multiple required>
               <!-- Image preview container -->
-              <div id="imagesPreviewContainer" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;"></div>
+              <div id="imagePreviewContainer" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;"></div>
             </div>
           </div>
 
@@ -123,18 +124,17 @@
   </div>
 
   <!-- --- Scripts --- -->
+  <script src="js/listings.js"></script>
   <script src="js/form.js"></script>
   <script src="js/app.js"></script>
 
   <script>
-    // Price range slider display
+    // Price range slider functionality
     const priceRange = document.getElementById('priceRange');
     const priceRangeValue = document.getElementById('priceRangeValue');
-    priceRangeValue.textContent = `R${priceRange.value}`;
-
     priceRange.addEventListener('input', () => {
       priceRangeValue.textContent = `R${parseInt(priceRange.value).toLocaleString()}`;
-      // Filter listings dynamically
+      // Optionally filter listings here by price
       const maxPrice = parseInt(priceRange.value);
       const filteredListings = listingsData.filter(listing => listing.price <= maxPrice);
       renderListings(filteredListings);
