@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KaziStay Accommodation Listings</title>
+  <title>Accommodation Listings</title>
   
-  <!-- CSS -->
+  <!-- Your main CSS -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -13,132 +13,96 @@
   <!-- --- Navigation --- -->
   <nav>
     <div class="logo">KaziStay</div>
-    <button id="listRoomBtn" class="btn btn-primary">List a Room</button>
+    <button id="listRoomBtn" class="btn btn-primary" onclick="openAddModal()">List a Room</button>
   </nav>
 
-  <!-- --- Heading --- -->
-  <header class="main-header">
-    <h1>Find your suitable & comfortable home with KaziStay</h1>
-  </header>
-
-  <!-- --- Price Filter Slider --- -->
-  <section class="price-filter">
-    <label for="priceRange">Filter by Price: R0 - R15000</label>
-    <input type="range" id="priceRange" min="0" max="15000" step="500" value="15000">
-    <span id="priceRangeValue">R15000</span>
-  </section>
-
   <!-- --- Main Content (Listings Render Here) --- -->
-  <main id="listingsContainer"></main>
+  <main id="main-content"></main>
 
-  <!-- --- Add Listing Modal --- -->
-  <div id="addModal" class="modal-overlay">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>List Your Property</h2>
-        <button class="close-modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <form id="addForm">
-          <!-- Owner Name -->
-          <div class="form-group">
-            <label for="ownerName">Owner Name</label>
-            <input type="text" id="ownerName" placeholder="Enter your full name" required>
-          </div>
-
-          <!-- Property Location -->
-          <div class="form-group">
-            <label for="location">Property Location</label>
-            <input type="text" id="location" placeholder="City or Address" required>
-          </div>
-
-          <!-- Property Type -->
-          <div class="form-group">
-            <label for="propertyType">Property Type</label>
-            <select id="propertyType" required>
-              <option value="">Select type</option>
-              <option value="Single Room">Single Room</option>
-              <option value="Bachelor Room">Bachelor Room</option>
-              <option value="Apartment">Apartment</option>
-            </select>
-          </div>
-
-          <!-- Amenities -->
-          <div class="form-group">
-            <label for="amenities">Amenities</label>
-            <input type="text" id="amenities" placeholder="Wifi, Television, Parking..." required>
-          </div>
-
-          <!-- Property Images Upload -->
-          <div class="form-group full-width">
-            <label>Property Images</label>
-            <div class="file-upload">
-              <i class="fa fa-cloud-upload file-upload-icon"></i>
-              <p class="file-upload-text">Click to upload images <span>(JPG/PNG)</span></p>
-              <input type="file" id="propertyImage" accept="image/*" multiple required>
-              <!-- Image preview container -->
-              <div id="imagePreviewContainer" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;"></div>
-            </div>
-          </div>
-
-          <!-- Price -->
-          <div class="form-group">
-            <label for="price">Price (ZAR)</label>
-            <input type="number" id="price" placeholder="Enter monthly price" required>
-          </div>
-
-          <!-- Description -->
-          <div class="form-group full-width">
-            <label for="description">Brief Description</label>
-            <textarea id="description" placeholder="Describe your property" required></textarea>
-          </div>
-
-          <!-- Submit Button -->
-          <button type="submit" class="submit-btn btn btn-primary">Upload Property</button>
-        </form>
-      </div>
+ <!-- Add Listing Modal -->
+<div id="addModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>List Your Property</h2>
+      <button class="close-modal">&times;</button>
     </div>
-  </div>
-
-  <!-- --- Property Detail Modal --- -->
-  <div id="detailModal" class="modal-overlay">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">Property Detail</h2>
-        <button class="close-modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <img src="" alt="Main Image" class="modal-main-image" style="width:100%; border-radius:12px; margin-bottom:10px;">
-        <div class="modal-thumbnails" style="display:flex; gap:5px; overflow-x:auto;"></div>
-        <p class="modal-price"></p>
-        <p class="modal-location-link" style="color:blue; cursor:pointer; text-decoration:underline;"></p>
-        <p class="modal-desc"></p>
-        <div class="modal-amenities" style="display:flex; gap:5px; flex-wrap:wrap;"></div>
-        <div class="gallery-navs" style="margin-top:10px;">
-          <button class="gallery-nav prev">Prev</button>
-          <button class="gallery-nav next">Next</button>
+    <div class="modal-body">
+      <form id="addForm">
+        <!-- Owner Name -->
+        <div class="form-group">
+          <label for="ownerName">Owner Name</label>
+          <input type="text" id="ownerName" placeholder="Enter your full name" required>
         </div>
-      </div>
+
+        <!-- Property Location -->
+        <div class="form-group">
+          <label for="location">Property Location</label>
+          <input type="text" id="location" placeholder="City or Address" required>
+        </div>
+
+        <!-- Property Type -->
+        <div class="form-group">
+          <label for="propertyType">Property Type</label>
+          <select id="propertyType" required>
+            <option value="">Select type</option>
+            <option value="single room">Single Room</option>
+            <option value="bachelor room">Bachelor Room</option>
+            <option value="apartment">Apartment</option>
+          </select>
+        </div>
+
+        <!-- Amenities -->
+        <div class="form-group full-width">
+          <label for="amenities">Amenities</label>
+          <input type="text" id="amenities" placeholder="Wifi, Television, Parking..." required>
+        </div>
+
+        <!-- Property Image Upload -->
+        <div class="form-group full-width">
+          <label>Property Image</label>
+          <div class="file-upload">
+            <i class="fa fa-cloud-upload file-upload-icon"></i>
+            <p class="file-upload-text">Click to upload image <span>(JPG/PNG)</span></p>
+            <input type="file" id="propertyImage" accept="image/*" required>
+            <!-- Property Image Upload -->
+<div class="form-group full-width">
+  <label>Property Image</label>
+  <div class="file-upload">
+    <i class="fa fa-cloud-upload file-upload-icon"></i>
+    <p class="file-upload-text">Click to upload image <span>(JPG/PNG)</span></p>
+    <input type="file" id="propertyImage" accept="image/*" required>
+    <!-- Image preview -->
+    <img id="imagePreview" style="display:none; margin-top:10px; max-width:100%; border-radius:12px;" />
+  </div>
+</div>
+
+          </div>
+        </div>
+
+        <!-- Price -->
+        <div class="form-group">
+          <label for="price">Price (ZAR)</label>
+          <input type="number" id="price" placeholder="Enter monthly price" required>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group full-width">
+          <label for="description">Brief Description</label>
+          <textarea id="description" placeholder="Describe your property" required></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn btn btn-primary">Upload Property</button>
+      </form>
     </div>
   </div>
+</div>
+
 
   <!-- --- Scripts --- -->
   <script src="js/listings.js"></script>
   <script src="js/form.js"></script>
   <script src="js/app.js"></script>
-
-  <script>
-    // Price range slider functionality
-    const priceRange = document.getElementById('priceRange');
-    const priceRangeValue = document.getElementById('priceRangeValue');
-    priceRange.addEventListener('input', () => {
-      priceRangeValue.textContent = `R${parseInt(priceRange.value).toLocaleString()}`;
-      // Optionally filter listings here by price
-      const maxPrice = parseInt(priceRange.value);
-      const filteredListings = listingsData.filter(listing => listing.price <= maxPrice);
-      renderListings(filteredListings);
-    });
-  </script>
 
 </body>
 </html>
