@@ -18,9 +18,7 @@ closeModalBtn.addEventListener('click', () => {
 
 // Close modal if clicked outside content
 addModal.addEventListener('click', (e) => {
-  if (e.target === addModal) {
-    addModal.classList.remove('active');
-  }
+  if (e.target === addModal) addModal.classList.remove('active');
 });
 
 // ===== Image Preview for Multiple Files =====
@@ -51,28 +49,32 @@ addForm.addEventListener('submit', (e) => {
 
   // Collect form data
   const propertyData = {
-    ownerName: document.getElementById('ownerName').value,
-    location: document.getElementById('location').value,
+    ownerName: document.getElementById('ownerName').value.trim(),
+    location: document.getElementById('location').value.trim(),
     propertyType: document.getElementById('propertyType').value,
-    amenities: document.getElementById('amenities').value,
-    price: document.getElementById('price').value,
-    description: document.getElementById('description').value,
-    images: Array.from(propertyImagesInput.files) || []
+    amenities: document.getElementById('amenities').value.trim(),
+    price: Number(document.getElementById('price').value),
+    description: document.getElementById('description').value.trim(),
+    images: Array.from(propertyImagesInput.files)
   };
 
-  console.log("Property Uploaded:", propertyData);
+  // Convert uploaded files to object URLs for display
+  const imagesURLs = propertyData.images.map(file => URL.createObjectURL(file));
 
-  // Optional: push to your listingsData and re-render
+  // Push to listingsData
   listingsData.push({
     id: listingsData.length + 1,
     ...propertyData,
-    images: propertyData.images.map(f => URL.createObjectURL(f)) // for preview/testing
+    images: imagesURLs
   });
 
-  renderListings(); // refresh property cards
+  // Re-render listings on homepage
+  renderListings();
 
   // Reset form
   addForm.reset();
   imagesPreviewContainer.innerHTML = '';
   addModal.classList.remove('active');
+
+  console.log('New property added:', propertyData);
 });
