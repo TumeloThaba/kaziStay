@@ -11,7 +11,7 @@ const priceRangeInput = document.getElementById('priceRange');
 const priceRangeDisplay = document.getElementById('priceRangeValue');
 
 // ===== Gallery State =====
-let listingsData = []; // Will store all properties
+let listingsData = JSON.parse(localStorage.getItem("listings")) || []; // Will store all properties
 let currentImages = [];
 let currentImageIndex = 0;
 
