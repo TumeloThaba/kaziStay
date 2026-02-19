@@ -1,5 +1,5 @@
 // ===== Elements =====
-const listingsContainer = document.getElementById('listingsContainer');
+const listingsContainer = document.getElementById('main-content');
 const detailModal = document.getElementById('detailModal');
 const detailCloseBtn = detailModal.querySelector('.close-modal');
 const modalMainImage = detailModal.querySelector('.modal-main-image');
@@ -7,43 +7,19 @@ const modalThumbnails = detailModal.querySelector('.modal-thumbnails');
 const galleryPrev = detailModal.querySelector('.gallery-nav.prev');
 const galleryNext = detailModal.querySelector('.gallery-nav.next');
 
-// ===== Sample Listings Data =====
-let listingsData = [
-  {
-    id: 1,
-    ownerName: "John Doe",
-    location: "Sasolburg, Free State",
-    propertyType: "Apartment",
-    amenities: "WiFi, Television, Parking",
-    price: 4500,
-    description: "Cozy 2-bedroom apartment close to downtown.",
-    images: [
-      "https://via.placeholder.com/400x300",
-      "https://via.placeholder.com/400x300/aaaaaa",
-      "https://via.placeholder.com/400x300/cccccc"
-    ]
-  },
-  {
-    id: 2,
-    ownerName: "Jane Smith",
-    location: "Vaalpark, Free State",
-    propertyType: "Single Room",
-    amenities: "WiFi, TV",
-    price: 2500,
-    description: "Single room in a quiet neighborhood.",
-    images: [
-      "https://via.placeholder.com/400x300",
-    ]
-  }
-];
-
 // ===== Gallery State =====
+let listingsData = []; // will store uploaded properties
 let currentImages = [];
 let currentImageIndex = 0;
 
 // ===== Render Listings =====
 function renderListings() {
-  listingsContainer.innerHTML = "";
+  listingsContainer.innerHTML = '';
+
+  if(listingsData.length === 0) {
+    listingsContainer.innerHTML = '<p style="text-align:center; margin-top:30px;">No listings yet. List a property to get started!</p>';
+    return;
+  }
 
   listingsData.forEach(listing => {
     const card = document.createElement('div');
@@ -71,9 +47,7 @@ function renderListings() {
     viewBtn.addEventListener('click', () => {
       currentImages = listing.images;
       currentImageIndex = 0;
-
       updateModalGallery(listing);
-
       detailModal.classList.add('active');
     });
 
@@ -97,6 +71,7 @@ function updateModalGallery(listing) {
   detailModal.querySelector('.modal-title').textContent = `${listing.propertyType} - ${listing.ownerName}`;
   detailModal.querySelector('.modal-price').textContent = `R${listing.price.toLocaleString()}`;
   detailModal.querySelector('.modal-desc').textContent = listing.description;
+
   const modalLocation = detailModal.querySelector('.modal-location-link');
   modalLocation.textContent = listing.location;
   modalLocation.onclick = () => {
@@ -104,6 +79,7 @@ function updateModalGallery(listing) {
     window.open(mapUrl, '_blank');
   };
 
+  // Amenities
   detailModal.querySelector('.modal-amenities').innerHTML =
     listing.amenities.split(',').map(a => `<div class="amenity">${a.trim()}</div>`).join('');
 
@@ -128,14 +104,19 @@ function updateModalGallery(listing) {
 galleryPrev.addEventListener('click', () => {
   if(currentImages.length === 0) return;
   currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
-  updateModalGallery(listingsData.find(l => l.images === currentImages));
+  renderModalForCurrentImages();
 });
 
 galleryNext.addEventListener('click', () => {
   if(currentImages.length === 0) return;
   currentImageIndex = (currentImageIndex + 1) % currentImages.length;
-  updateModalGallery(listingsData.find(l => l.images === currentImages));
+  renderModalForCurrentImages();
 });
+
+function renderModalForCurrentImages() {
+  const listing = listingsData.find(l => l.images.includes(currentImages[currentImageIndex]));
+  if(listing) updateModalGallery(listing);
+}
 
 // ===== Close Detail Modal =====
 detailCloseBtn.addEventListener('click', () => {
@@ -144,11 +125,46 @@ detailCloseBtn.addEventListener('click', () => {
 
 // Close modal if clicked outside content
 detailModal.addEventListener('click', (e) => {
-  if (e.target === detailModal) {
-    detailModal.classList.remove('active');
+  if(e.target === detailModal) detailModal.classList.remove('active');
+});
+
+// ===== Add New Property from Form =====
+const addForm = document.getElementById('addForm');
+addForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const newListing = {
+    id: Date.now(),
+    ownerName: document.getElementById('ownerName').value,
+    location: document.getElementById('location').value,
+    propertyType: document.getElementById('propertyType').value,
+    amenities: document.getElementById('amenities').value,
+    price: parseFloat(document.getElementById('price').value),
+    description: document.getElementById('description').value,
+    images: []
+  };
+
+  // Handle multiple images
+  const imageFiles = document.getElementById('propertyImage').files;
+  for(let file of imageFiles) {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      newListing.images.push(event.target.result);
+
+      // Only render after all images loaded
+      if(newListing.images.length === imageFiles.length) {
+        listingsData.push(newListing);
+        renderListings();
+      }
+    };
+    reader.readAsDataURL(file);
   }
+
+  // Reset form
+  addForm.reset();
+  document.getElementById('imagePreview').style.display = 'none';
+  document.getElementById('addModal').classList.remove('active');
 });
 
 // ===== Initial Render =====
 renderListings();
-
