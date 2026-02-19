@@ -59,7 +59,7 @@ transition: var(--transition);
 /* --- Hero Section --- */
 .hero { padding: 6rem 5% 4rem; text-align: center; background: radial-gradient(circle at top right, #f0fdf4, #ffffff); transition: var(--transition); }
 .dark-mode .hero { background: radial-gradient(circle at top right, #1e1e1e, #121212); }
-.hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; margin-bottom: 1.5rem; color: var(--primary-black); line-height: 1.1; letter-spacing: -2px; }
+.hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800;text-align: center;margin-left: auto;margin-right: auto; margin-bottom: 1.5rem; color: var(--primary-black); line-height: 1.1; letter-spacing: -2px; }
 .hero p { color: var(--text-muted); font-size: 1.2rem; margin-bottom: 3rem; max-width: 600px; margin: 0 auto 3rem; animation: fadeIn 0.8s ease; }
 .search-container {
 background: white; padding: 0.6rem; border-radius: 100px;
