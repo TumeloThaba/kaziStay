@@ -12,7 +12,6 @@
 --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.1);
 --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 .dark-mode {
 --primary-black: #ffffff;
 --secondary-black: #dddddd;
@@ -25,7 +24,6 @@
 --shadow-sm: 0 1px 2px 0 rgba(255,255,255,0.05);
 --shadow-md: 0 10px 15px -3px rgba(255,255,255,0.1);
 }
-
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
 body {
 background: var(--bg-white);
@@ -59,7 +57,7 @@ transition: var(--transition);
 /* --- Hero Section --- */
 .hero { padding: 6rem 5% 4rem; text-align: center; background: radial-gradient(circle at top right, #f0fdf4, #ffffff); transition: var(--transition); }
 .dark-mode .hero { background: radial-gradient(circle at top right, #1e1e1e, #121212); }
-.hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800;text-align: center;margin-left: auto;margin-right: auto; margin-bottom: 1.5rem; color: var(--primary-black); line-height: 1.1; letter-spacing: -2px; }
+.hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; margin-bottom: 1.5rem; color: var(--primary-black); line-height: 1.1; letter-spacing: -2px; }
 .hero p { color: var(--text-muted); font-size: 1.2rem; margin-bottom: 3rem; max-width: 600px; margin: 0 auto 3rem; animation: fadeIn 0.8s ease; }
 .search-container {
 background: white; padding: 0.6rem; border-radius: 100px;
@@ -215,7 +213,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 .range-container { position: relative; height: 30px; display: flex; align-items: center; }
 input[type="range"] { -webkit-appearance: none; width: 100%; background: transparent; position: absolute; }
 input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; height: 22px; width: 22px; border-radius: 50%; background: white; border: 2px solid var(--primary-black); cursor: pointer; margin-top: -8px; position: relative; z-index: 2; }
-.range-track { position: absolute; height: 6px; background: var(--accent-blue); border-radius: 3px; z-index: 1; }
+.range-track { position: absolute; height: 6px; background: var(--accent-green); border-radius: 3px; z-index: 1; }
 .range-bg { position: absolute; width: 100%; height: 6px; background: #e5e7eb; border-radius: 3px; }
 .dark-mode .range-bg { background: #333; }
 /* --- MOBILE SPECIFIC STYLES --- */
@@ -363,6 +361,7 @@ white-space: nowrap;
 @media (min-width: 768px) {
 .bottom-nav { display: none; }
 #mobileSearchView { display: none !important; }
+#desktopFilters { display: block; }
 }
 /* --- MODAL STYLES --- */
 /* Property Detail Modal - Desktop wider */
@@ -907,70 +906,4 @@ color: #eab308;
 }
 #reviewModal textarea {
 height: 100px;
-  /* Price slider container */
-.price-filter {
-  width: 90%;
-  max-width: 600px;
-  margin: 20px auto;
-  text-align: center;
-  position: relative;
 }
-
-/* Hide default input number */
-#priceRange {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 12px;
-  border-radius: 6px;
-  background: #ddd;
-  outline: none;
-  margin-top: 10px;
-  cursor: pointer;
-  position: relative;
-}
-
-/* Slider track fill */
-#priceRange::-webkit-slider-runnable-track {
-  height: 12px;
-  border-radius: 6px;
-  background: linear-gradient(to right, #4CAF50 0%, #4CAF50 50%, #ddd 50%, #ddd 100%);
-}
-#priceRange::-moz-range-track {
-  height: 12px;
-  border-radius: 6px;
-  background: linear-gradient(to right, #4CAF50 0%, #4CAF50 50%, #ddd 50%, #ddd 100%);
-}
-
-/* Slider thumb */
-#priceRange::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #4CAF50;
-  cursor: pointer;
-  border: 2px solid #fff;
-  margin-top: -6px; /* center thumb */
-  position: relative;
-}
-#priceRange::-moz-range-thumb {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #4CAF50;
-  cursor: pointer;
-  border: 2px solid #fff;
-}
-
-/* Price tooltip */
-#priceRangeValue {
-  display: inline-block;
-  margin-top: 5px;
-  font-weight: bold;
-  background: #4CAF50;
-  color: white;
-  padding: 3px 8px;
-  border-radius: 4px;
-  position: relative;
-}
-}/* Main Styles */
