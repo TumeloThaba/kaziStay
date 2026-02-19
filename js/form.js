@@ -61,12 +61,14 @@ addForm.addEventListener('submit', (e) => {
   // Convert uploaded files to object URLs for display
   const imagesURLs = propertyData.images.map(file => URL.createObjectURL(file));
 
-  // Push to listingsData
   listingsData.push({
-    id: listingsData.length + 1,
-    ...propertyData,
-    images: imagesURLs
-  });
+  id: listingsData.length + 1,
+  ...propertyData,
+  images: propertyData.images.map(f => URL.createObjectURL(f))
+});
+
+localStorage.setItem("listings", JSON.stringify(listingsData));
+renderListings();
 
   // Re-render listings on homepage
   renderListings();
