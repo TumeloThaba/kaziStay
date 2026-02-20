@@ -2,7 +2,7 @@
 const listingsData = [
   {
     id: 1,
-    title: "Bachelor Apartment",
+    title: "Bachelor Rooms",
     location: "Polokwane",
     price: "R3500",
     image: "https://via.placeholder.com/400x240",
