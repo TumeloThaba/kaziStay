@@ -173,13 +173,13 @@ if (priceRangeInput && priceRangeDisplay) {
 renderListings();
   // FILTER + PRICE RANGE SYSTEM//
 
+document.addEventListener("DOMContentLoaded", function () {
 
-// State
 let currentCategory = "all";
 let minPrice = 0;
 let maxPrice = 20000;
 
-// Elements
+
 const filterButtons = document.querySelectorAll(".filter-tag");
 const minInput = document.getElementById("desktop-priceMin");
 const maxInput = document.getElementById("desktop-priceMax");
