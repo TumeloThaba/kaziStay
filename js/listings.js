@@ -2,7 +2,7 @@
 const listingsData = [
   {
     id: 1,
-    title: "Cozy Apartment",
+    title: "Bachelor Apartment",
     location: "Sasolburg",
     price: "R3500",
     image: "https://via.placeholder.com/400x240",
@@ -11,7 +11,7 @@ const listingsData = [
   },
   {
     id: 2,
-    title: "Luxury Condo",
+    title: "Apartment",
     location: "Vaalpark",
     price: "R5500",
     image: "https://via.placeholder.com/400x240",
