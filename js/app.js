@@ -168,110 +168,80 @@ if (priceRangeInput && priceRangeDisplay) {
   priceRangeInput.addEventListener('input', updatePriceSlider);
   updatePriceSlider(); // initial fill on load
 }
-
-// ===== Initial Render =====
-renderListings();
-  // FILTER + PRICE RANGE SYSTEM//
-
-document.addEventListener("DOMContentLoaded", function () {
+ // ===== DESKTOP FILTER SYSTEM =====
 
 let currentCategory = "all";
 let minPrice = 0;
 let maxPrice = 20000;
 
+document.addEventListener("DOMContentLoaded", function () {
 
-const filterButtons = document.querySelectorAll(".filter-tag");
-const minInput = document.getElementById("desktop-priceMin");
-const maxInput = document.getElementById("desktop-priceMax");
-const minDisplay = document.getElementById("desktop-minPriceDisplay");
-const maxDisplay = document.getElementById("desktop-maxPriceDisplay");
-const rangeTrack = document.getElementById("desktop-rangeTrack");
+  const filterButtons = document.querySelectorAll(".filter-tag");
+  const minInput = document.getElementById("desktop-priceMin");
+  const maxInput = document.getElementById("desktop-priceMax");
+  const minDisplay = document.getElementById("desktop-minPriceDisplay");
+  const maxDisplay = document.getElementById("desktop-maxPriceDisplay");
+  const rangeTrack = document.getElementById("desktop-rangeTrack");
 
-// CATEGORY FILTER
-filterButtons.forEach(button => {
-  button.addEventListener("click", function () {
+  if (!filterButtons.length) return;
 
-    // Remove active from all
-    filterButtons.forEach(btn => btn.classList.remove("active"));
+  // CATEGORY FILTER
+  filterButtons.forEach(button => {
+    button.addEventListener("click", function () {
 
-    // Add active to clicked
-    this.classList.add("active");
+      filterButtons.forEach(btn => btn.classList.remove("active"));
+      this.classList.add("active");
 
-    currentCategory = this.dataset.filter;
-
-    renderListings(); // Re-render listings
+      currentCategory = this.dataset.filter;
+      applyFilters();
+    });
   });
-});
 
-// PRICE RANGE DISPLAY + FILTER
-function updatePriceUI() {
+  // PRICE RANGE
+  function updatePriceUI() {
+    minPrice = parseInt(minInput.value);
+    maxPrice = parseInt(maxInput.value);
 
-  minPrice = parseInt(minInput.value);
-  maxPrice = parseInt(maxInput.value);
+    if (minPrice > maxPrice) {
+      [minPrice, maxPrice] = [maxPrice, minPrice];
+    }
 
-  // Prevent overlap
-  if (minPrice > maxPrice) {
-    [minPrice, maxPrice] = [maxPrice, minPrice];
+    minDisplay.textContent = minPrice;
+    maxDisplay.textContent = maxPrice;
+
+    const minPercent = (minPrice / minInput.max) * 100;
+    const maxPercent = (maxPrice / maxInput.max) * 100;
+
+    rangeTrack.style.left = minPercent + "%";
+    rangeTrack.style.width = (maxPercent - minPercent) + "%";
+
+    applyFilters();
   }
 
-  minDisplay.textContent = minPrice;
-  maxDisplay.textContent = maxPrice;
+  if (minInput && maxInput) {
+    minInput.addEventListener("input", updatePriceUI);
+    maxInput.addEventListener("input", updatePriceUI);
+    updatePriceUI();
+  }
 
-  // Update green track (visual fill)
-  const minPercent = (minPrice / minInput.max) * 100;
-  const maxPercent = (maxPrice / maxInput.max) * 100;
+});
 
-  rangeTrack.style.left = minPercent + "%";
-  rangeTrack.style.width = (maxPercent - minPercent) + "%";
 
-  renderListings(); // Re-render listings
-}
+// ===== APPLY FILTERS TO EXISTING RENDER =====
+function applyFilters() {
 
-minInput.addEventListener("input", updatePriceUI);
-maxInput.addEventListener("input", updatePriceUI);
-
-// Initialize UI on load
-updatePriceUI();
-
-// UPDATED RENDER FUNCTION
-
-function renderListings() {
-
-  const container = document.getElementById("listingsContainer");
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  // Make sure listingsData exists
-  if (!Array.isArray(listingsData)) return;
-
-  const filteredListings = listingsData.filter(item => {
+  const filtered = listingsData.filter(listing => {
 
     const matchesCategory =
       currentCategory === "all" ||
-      item.category === currentCategory;
+      listing.propertyType === currentCategory;
 
     const matchesPrice =
-      parseInt(item.price) >= minPrice &&
-      parseInt(item.price) <= maxPrice;
+      listing.price >= minPrice &&
+      listing.price <= maxPrice;
 
     return matchesCategory && matchesPrice;
   });
 
-  if (filteredListings.length === 0) {
-    container.innerHTML = `<p style="padding:20px;">No properties found.</p>`;
-    return;
-  }
-
-  filteredListings.forEach(item => {
-    container.innerHTML += `
-      <div class="listing-card">
-        <h3>${item.title}</h3>
-        <p>R${item.price}</p>
-        <button onclick="openModal(${item.id})">
-          View Property
-        </button>
-      </div>
-    `;
-  });
+  renderListings(filtered);
 }
