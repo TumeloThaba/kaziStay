@@ -38,7 +38,7 @@ function renderListings() {
             <h3 class="card-title">${item.title}</h3>
             <p class="card-location">${item.location}</p>
             <p class="price">${item.price}</p>
-            <button class="card-btn" onclick="openAddModal()">List a Room</button>
+            <button class="card-btn" onclick="openAddModal()">view property</button>
           </div>
         </div>
       `).join('')}
