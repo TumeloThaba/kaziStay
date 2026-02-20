@@ -1,11 +1,12 @@
 // ===== Elements =====
 const listingsContainer = document.getElementById('main-content');
+
 const detailModal = document.getElementById('detailModal');
-const detailCloseBtn = detailModal.querySelector('.close-modal');
-const modalMainImage = detailModal.querySelector('.modal-main-image');
-const modalThumbnails = detailModal.querySelector('.modal-thumbnails');
-const galleryPrev = detailModal.querySelector('.gallery-nav.prev');
-const galleryNext = detailModal.querySelector('.gallery-nav.next');
+const detailCloseBtn = detailModal ? detailModal.querySelector('.close-modal') : null;
+const modalMainImage = detailModal ? detailModal.querySelector('.modal-main-image') : null;
+const modalThumbnails = detailModal ? detailModal.querySelector('.modal-thumbnails') : null;
+const galleryPrev = detailModal ? detailModal.querySelector('.gallery-nav.prev') : null;
+const galleryNext = detailModal ? detailModal.querySelector('.gallery-nav.next') : null;
 
 const priceRangeInput = document.getElementById('priceRange');
 const priceRangeDisplay = document.getElementById('priceRangeValue');
@@ -100,11 +101,13 @@ function updateModalGallery(listing) {
 }
 
 // ===== Gallery Navigation =====
+if (galleryPrev) {
 galleryPrev.addEventListener('click', () => {
   if (currentImages.length === 0) return;
   currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
   renderModalForCurrentImages();
 });
+}
 
 galleryNext.addEventListener('click', () => {
   if (currentImages.length === 0) return;
