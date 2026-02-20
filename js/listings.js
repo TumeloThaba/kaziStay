@@ -3,8 +3,9 @@ const listingsData = [
   {
     id: 1,
     title: "Bachelor Rooms",
+    category: "Bachelor Rooms",
     location: "Polokwane",
-    price: "R3500",
+    price: "3500",
     image: "https://via.placeholder.com/400x240",
     verified: true,
     amenities: ["Wi-Fi", "Parking", "Pool"]
@@ -12,8 +13,9 @@ const listingsData = [
   {
     id: 2,
     title: "Apartment",
+    category: "Apartments",
     location: "Lebowakgomo",
-    price: "R5500",
+    price: "5500",
     image: "https://via.placeholder.com/400x240",
     verified: false,
     amenities: ["Wi-Fi", "Gym", "AC"]
