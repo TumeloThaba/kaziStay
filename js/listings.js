@@ -3,7 +3,7 @@ const listingsData = [
   {
     id: 1,
     title: "Bachelor Apartment",
-    location: "Sasolburg",
+    location: "Polokwane",
     price: "R3500",
     image: "https://via.placeholder.com/400x240",
     verified: true,
@@ -12,7 +12,7 @@ const listingsData = [
   {
     id: 2,
     title: "Apartment",
-    location: "Vaalpark",
+    location: "Lebowakgomo",
     price: "R5500",
     image: "https://via.placeholder.com/400x240",
     verified: false,
