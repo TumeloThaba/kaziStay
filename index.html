@@ -10,7 +10,7 @@
 </head>
 <body>
 
-  <!-- --- Navigation --- -->
+  <!-- --- Navigation --- desktop view-->
   <nav>
     <div class="logo">KaziStay</div>
     <button id="listRoomBtn" class="btn btn-primary" onclick="openAddModal()">List a Room</button>
@@ -51,6 +51,45 @@
     </div>
   </div>
 </div>
+   <!-- MOBILE SEARCH VIEW -->
+  <div id="mobileSearchView">
+    <div class="section-header" style="padding: 0 0 1.5rem 0;">
+      <h2>Filter your search</h2>
+    </div>
+    <div class="mobile-search-wrapper">
+      <div class="search-input-group">
+        <i class="fa-solid fa-location-dot"></i>
+        <input type="text" id="mobileSearchInput" placeholder="University, City, or Keyword...">
+      </div>
+      <div class="search-input-group">
+        <i class="fa-regular fa-calendar"></i>
+        <input type="text" placeholder="Move-in Date" onfocus="(this.type='date')">
+      </div>
+      <button class="btn btn-primary show-results-btn" style="width: 100%; margin-top: 10px;" onclick="applyFilters(); navigateTab(0);">Show Results</button>
+    </div>
+    <div class="filters" id="filterContainer">
+      <div class="filter-tags-row">
+        <button class="filter-tag active" data-filter="all">All Properties</button>
+        <button class="filter-tag" data-filter="Single room">Single Rooms</button>
+        <button class="filter-tag" data-filter="Bachelor Room">Bachelor Rooms</button>
+        <button class="filter-tag" data-filter="2 Room">2 Room</button>
+        <button class="filter-tag" data-filter="Flat Apartments">Apartments</button>
+      </div>
+      <div class="price-range-container">
+        <div class="price-range-header">
+          <span>Budget per Month</span>
+          <span style="color: var(--accent-green)">R<span id="mobile-minPriceDisplay">0</span> – R<span id="mobile-maxPriceDisplay">20000</span></span>
+        </div>
+        <div class="range-container">
+          <div class="range-bg"></div>
+          <div class="range-track" id="mobile-rangeTrack"></div>
+          <input type="range" id="mobile-priceMin" min="0" max="30000" value="0" step="250">
+          <input type="range" id="mobile-priceMax" min="0" max="30000" value="20000" step="250">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
  
   <!-- --- Main Content (Listings Render Here) --- -->
   <main id="main-content"></main>
@@ -86,14 +125,10 @@
             <option value="apartment">Apartment</option>
           </select>
         </div>
-
-        <!-- Amenities -->
         <div class="form-group full-width">
           <label for="amenities">Amenities</label>
           <input type="text" id="amenities" placeholder="Wifi, Television, Parking..." required>
         </div>
-
-        <!-- Property Image Upload -->
         <div class="form-group full-width">
           <label>Property Image</label>
           <div class="file-upload">
@@ -114,20 +149,14 @@
 
           </div>
         </div>
-
-        <!-- Price -->
         <div class="form-group">
           <label for="price">Price (ZAR)</label>
           <input type="number" id="price" placeholder="Enter monthly price" required>
         </div>
-
-        <!-- Description -->
         <div class="form-group full-width">
           <label for="description">Brief Description</label>
           <textarea id="description" placeholder="Describe your property" required></textarea>
         </div>
-
-        <!-- Submit Button -->
         <button type="submit" class="submit-btn btn btn-primary">Upload Property</button>
       </form>
     </div>
