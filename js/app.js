@@ -39,7 +39,7 @@ function renderListings(filteredData = listingsData) {
         <p class="card-desc">${listing.description}</p>
         <p class="amenities">${listing.amenities}</p>
         <div class="card-buttons" style="display:flex; gap:8px; margin-top:10px;">
-          <button class="card-btn view-btn">View Property/Room</button>
+          <button class="card-btn view-btn">View Property</button>
           <button class="card-btn location-btn">Location</button>
         </div>
       </div>
