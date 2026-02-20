@@ -11,6 +11,21 @@
 <body>
 
   <!-- --- Navigation --- -->
+  <section class="hero">
+  <h1>Your Freedom,<br>starts with a home.</h1>
+  <p>Discover verified rooms and apartments in your area. Safe, affordable, and just a click away.</p>
+  <div class="search-container">
+    <div class="search-input-group">
+      <i class="fa-solid fa-location-dot"></i>
+      <input type="text" id="searchInput" placeholder="University, City, or Keyword...">
+    </div>
+    <div class="search-input-group">
+      <i class="fa-regular fa-calendar"></i>
+      <input type="text" placeholder="Move-in Date" onfocus="(this.type='date')">
+    </div>
+    <button class="search-btn" onclick="applyFilters()">Find Rooms</button>
+  </div>
+</section>
   <nav>
     <div class="logo">KaziStay</div>
     <button id="listRoomBtn" class="btn btn-primary" onclick="openAddModal()">List a Room</button>
