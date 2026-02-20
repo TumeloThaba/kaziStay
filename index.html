@@ -51,6 +51,40 @@
     </div>
   </div>
 </div>
+  <!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal" onclick="if(event.target===this) closeModal()">
+  <div class="modal-content">
+    <button class="close-modal" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-gallery">
+      <img src="" alt="Room" class="modal-main-image" id="modalMainImage">
+      <button class="gallery-nav prev" onclick="changeImage(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+      <button class="gallery-nav next" onclick="changeImage(1)"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+    <div class="modal-thumbnails" id="modalThumbnails"></div>
+    <div class="modal-body">
+      <div class="modal-header-info">
+        <h2 class="modal-title" id="modalTitle">Title</h2>
+        <div class="modal-price" id="modalPrice">R0<span>/mo</span></div>
+      </div>
+      <div class="modal-meta">
+        <span id="modalLocation" class="modal-location-link" onclick="openMapModal()"><i class="fa-solid fa-location-dot"></i> <span id="modalLocationText">Location</span> <i class="fa-solid fa-external-link-alt" style="font-size:0.7rem; margin-left:4px;"></i></span>
+        <span id="modalType"><i class="fa-solid fa-home"></i> <span id="modalTypeText">Type</span></span>
+      </div>
+      <p class="modal-desc" id="modalDesc">Description...</p>
+      <div class="modal-amenities" id="modalAmenities"></div>
+      <div class="landlord-box" id="contactArea">
+        <div class="landlord-header">
+          <div class="landlord-avatar">K</div>
+          <div class="landlord-info">
+            <div class="landlord-name">KasiStay Verified</div>
+            <div class="landlord-status"><i class="fa-solid fa-bolt"></i> Responds fast</div>
+          </div>
+        </div>
+        <div class="contact-buttons">
+          <a href="#" class="contact-btn whatsapp" id="whatsappLink" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+          <a href="#" class="contact-btn call" id="callLink"><i class="fa-solid fa-phone"></i> Call</a>
+        </div>
+      </div>
 
   <!-- --- Main Content (Listings Render Here) --- -->
   <main id="main-content"></main>
