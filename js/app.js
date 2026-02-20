@@ -171,9 +171,8 @@ if (priceRangeInput && priceRangeDisplay) {
 
 // ===== Initial Render =====
 renderListings();
-/* ===============================
-   FILTER + PRICE RANGE SYSTEM
-   =============================== */
+  // FILTER + PRICE RANGE SYSTEM//
+
 
 // State
 let currentCategory = "all";
