@@ -171,3 +171,108 @@ if (priceRangeInput && priceRangeDisplay) {
 
 // ===== Initial Render =====
 renderListings();
+/* ===============================
+   FILTER + PRICE RANGE SYSTEM
+   =============================== */
+
+// State
+let currentCategory = "all";
+let minPrice = 0;
+let maxPrice = 20000;
+
+// Elements
+const filterButtons = document.querySelectorAll(".filter-tag");
+const minInput = document.getElementById("desktop-priceMin");
+const maxInput = document.getElementById("desktop-priceMax");
+const minDisplay = document.getElementById("desktop-minPriceDisplay");
+const maxDisplay = document.getElementById("desktop-maxPriceDisplay");
+const rangeTrack = document.getElementById("desktop-rangeTrack");
+
+// CATEGORY FILTER
+filterButtons.forEach(button => {
+  button.addEventListener("click", function () {
+
+    // Remove active from all
+    filterButtons.forEach(btn => btn.classList.remove("active"));
+
+    // Add active to clicked
+    this.classList.add("active");
+
+    currentCategory = this.dataset.filter;
+
+    renderListings(); // Re-render listings
+  });
+});
+
+// PRICE RANGE DISPLAY + FILTER
+function updatePriceUI() {
+
+  minPrice = parseInt(minInput.value);
+  maxPrice = parseInt(maxInput.value);
+
+  // Prevent overlap
+  if (minPrice > maxPrice) {
+    [minPrice, maxPrice] = [maxPrice, minPrice];
+  }
+
+  minDisplay.textContent = minPrice;
+  maxDisplay.textContent = maxPrice;
+
+  // Update green track (visual fill)
+  const minPercent = (minPrice / minInput.max) * 100;
+  const maxPercent = (maxPrice / maxInput.max) * 100;
+
+  rangeTrack.style.left = minPercent + "%";
+  rangeTrack.style.width = (maxPercent - minPercent) + "%";
+
+  renderListings(); // Re-render listings
+}
+
+minInput.addEventListener("input", updatePriceUI);
+maxInput.addEventListener("input", updatePriceUI);
+
+// Initialize UI on load
+updatePriceUI();
+
+// UPDATED RENDER FUNCTION
+
+function renderListings() {
+
+  const container = document.getElementById("listingsContainer");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  // Make sure listingsData exists
+  if (!Array.isArray(listingsData)) return;
+
+  const filteredListings = listingsData.filter(item => {
+
+    const matchesCategory =
+      currentCategory === "all" ||
+      item.category === currentCategory;
+
+    const matchesPrice =
+      parseInt(item.price) >= minPrice &&
+      parseInt(item.price) <= maxPrice;
+
+    return matchesCategory && matchesPrice;
+  });
+
+  if (filteredListings.length === 0) {
+    container.innerHTML = `<p style="padding:20px;">No properties found.</p>`;
+    return;
+  }
+
+  filteredListings.forEach(item => {
+    container.innerHTML += `
+      <div class="listing-card">
+        <h3>${item.title}</h3>
+        <p>R${item.price}</p>
+        <button onclick="openModal(${item.id})">
+          View Property
+        </button>
+      </div>
+    `;
+  });
+}
