@@ -1,79 +1,88 @@
-// ===== Elements =====
-const listRoomBtn = document.getElementById('listRoomBtn'); // "List a Room" button
-const addModal = document.getElementById('addModal');        // Modal overlay
-const closeModalBtn = addModal.querySelector('.close-modal');
-const addForm = document.getElementById('addForm');          // Form inside modal
-const propertyImagesInput = document.getElementById('propertyImages');
-const imagesPreviewContainer = document.getElementById('imagesPreviewContainer');
+document.addEventListener("DOMContentLoaded", () => {
 
-// ===== Open Modal =====
-listRoomBtn.addEventListener('click', () => {
-  addModal.classList.add('active');
-});
+  // ===== SAFE ELEMENTS =====
+  const listRoomBtn = document.getElementById('listRoomBtn');
+  const addModal = document.getElementById('addModal');
+  const closeModalBtn = addModal ? addModal.querySelector('.close-modal') : null;
+  const addForm = document.getElementById('addForm');
+  const propertyImagesInput = document.getElementById('propertyImages');
+  const imagesPreviewContainer = document.getElementById('imagesPreviewContainer');
 
-// ===== Close Modal =====
-closeModalBtn.addEventListener('click', () => {
-  addModal.classList.remove('active');
-});
+  if (!listRoomBtn || !addModal || !addForm || !propertyImagesInput || !imagesPreviewContainer) return;
 
-// Close modal if clicked outside content
-addModal.addEventListener('click', (e) => {
-  if (e.target === addModal) addModal.classList.remove('active');
-});
+  // ===== Open Modal =====
+  listRoomBtn.addEventListener('click', () => addModal.classList.add('active'));
 
-// ===== Image Preview for Multiple Files =====
-propertyImagesInput.addEventListener('change', () => {
-  imagesPreviewContainer.innerHTML = ''; // Clear previous previews
-  const files = propertyImagesInput.files;
-  
-  Array.from(files).forEach(file => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const img = document.createElement('img');
-      img.src = reader.result;
-      img.style.width = '100px';
-      img.style.height = '80px';
-      img.style.objectFit = 'cover';
-      img.style.marginRight = '8px';
-      img.style.marginBottom = '8px';
-      img.style.borderRadius = '8px';
-      imagesPreviewContainer.appendChild(img);
-    };
-    reader.readAsDataURL(file);
+  // ===== Close Modal =====
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', () => addModal.classList.remove('active'));
+  }
+
+  // Close modal if clicked outside content
+  addModal.addEventListener('click', (e) => {
+    if (e.target === addModal) addModal.classList.remove('active');
   });
-});
 
-// ===== Form Submit =====
-addForm.addEventListener('submit', (e) => {
-  e.preventDefault(); // prevent page reload
+  // ===== Image Preview for Multiple Files =====
+  propertyImagesInput.addEventListener('change', () => {
+    imagesPreviewContainer.innerHTML = ''; // Clear previous previews
+    const files = propertyImagesInput.files;
 
-  // Collect form data
-  const propertyData = {
-    ownerName: document.getElementById('ownerName').value.trim(),
-    location: document.getElementById('location').value.trim(),
-    propertyType: document.getElementById('propertyType').value,
-    amenities: document.getElementById('amenities').value.trim(),
-    price: Number(document.getElementById('price').value),
-    description: document.getElementById('description').value.trim(),
-    images: Array.from(propertyImagesInput.files)
-  };
+    Array.from(files).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = document.createElement('img');
+        img.src = reader.result;
+        img.style.width = '100px';
+        img.style.height = '80px';
+        img.style.objectFit = 'cover';
+        img.style.marginRight = '8px';
+        img.style.marginBottom = '8px';
+        img.style.borderRadius = '8px';
+        imagesPreviewContainer.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    });
+  });
 
-  // Convert uploaded files to object URLs for display
-  const imagesURLs = propertyData.images.map(file => URL.createObjectURL(file));
+  // ===== Form Submit =====
+  addForm.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-  listingsData.push({
-  id: listingsData.length + 1,
-  ...propertyData,
-  images: propertyData.images.map(f => URL.createObjectURL(f))
-});
+    // Collect form data
+    const propertyData = {
+      ownerName: document.getElementById('ownerName').value.trim(),
+      location: document.getElementById('location').value.trim(),
+      propertyType: document.getElementById('propertyType').value,
+      amenities: document.getElementById('amenities').value.trim(),
+      price: Number(document.getElementById('price').value),
+      description: document.getElementById('description').value.trim(),
+      images: Array.from(propertyImagesInput.files)
+    };
 
-localStorage.setItem("listings", JSON.stringify(listingsData));
-renderListings();
+    // Convert uploaded files to object URLs
+    const imagesURLs = propertyData.images.map(file => URL.createObjectURL(file));
 
-  // Reset form
-  addForm.reset();
-  imagesPreviewContainer.innerHTML = '';
-  addModal.classList.remove('active');
+    // ===== PUSH TO EXISTING listingsData from app.js =====
+    if (window.listingsData && Array.isArray(window.listingsData)) {
+      window.listingsData.push({
+        id: Date.now(),
+        ...propertyData,
+        images: imagesURLs
+      });
 
-  console.log('New property added:', propertyData);
+      localStorage.setItem("listings", JSON.stringify(window.listingsData));
+      if (typeof window.renderListings === "function") {
+        window.renderListings();
+      }
+    }
+
+    // Reset form
+    addForm.reset();
+    imagesPreviewContainer.innerHTML = '';
+    addModal.classList.remove('active');
+
+    console.log('New property added:', propertyData);
+  });
+
 });
