@@ -15,6 +15,27 @@
     <div class="logo">KaziStay</div>
     <button id="listRoomBtn" class="btn btn-primary" onclick="openAddModal()">List a Room</button>
   </nav>
+  <div class="filters" id="desktopFilters">
+  <div class="filter-tags-row">
+    <button class="filter-tag active" data-filter="all">All Properties</button>
+    <button class="filter-tag" data-filter="Single room">Single Rooms</button>
+    <button class="filter-tag" data-filter="Bachelor Room">Bachelor Rooms</button>
+    <button class="filter-tag" data-filter="2 Room">2 Room</button>
+    <button class="filter-tag" data-filter="Flat Apartments">Apartments</button>
+  </div>
+  <div class="price-range-container">
+    <div class="price-range-header">
+      <span>Budget per Month</span>
+      <span style="color: var(--accent-green)">R<span id="desktop-minPriceDisplay">0</span> – R<span id="desktop-maxPriceDisplay">20000</span></span>
+    </div>
+    <div class="range-container">
+      <div class="range-bg"></div>
+      <div class="range-track" id="desktop-rangeTrack"></div>
+      <input type="range" id="desktop-priceMin" min="0" max="30000" value="0" step="250">
+      <input type="range" id="desktop-priceMax" min="0" max="30000" value="20000" step="250">
+    </div>
+  </div>
+</div>
 
   <!-- --- Main Content (Listings Render Here) --- -->
   <main id="main-content"></main>
